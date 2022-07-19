@@ -9,6 +9,7 @@ import kotlinx.coroutines.delay
 object TransactionRepository {
 
     private const val MOCK_TRANSACTION_MONEY_AMOUNT = 255.50F
+    private const val MOCK_TRANSACTION_TITLE = "Item To Purchase"
 
     //Simulating retrieving transaction data
     suspend fun getCurrentTransactionData(): StateData<TransactionData> {
@@ -16,7 +17,7 @@ object TransactionRepository {
         val transaction: TransactionData
         try {
             transaction = TransactionData(
-                transactionTitle = "Item To Purchase",
+                transactionTitle = MOCK_TRANSACTION_TITLE,
                 moneyAmount = MOCK_TRANSACTION_MONEY_AMOUNT,
                 isSuccessful = false
             )
@@ -42,6 +43,7 @@ object TransactionRepository {
 
     //For demonstration purposes
     suspend fun makePaymentReturnError(): StateData<TransactionData> {
+        delay(1000L)
         return StateData.Error("Payment failed. Please, try again")
     }
 

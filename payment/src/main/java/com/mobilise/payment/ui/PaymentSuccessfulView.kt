@@ -15,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.mobilise.payment.R
 
 @Composable
 fun PaymentSuccessfulView(
@@ -28,7 +30,7 @@ fun PaymentSuccessfulView(
             .background(Color.White)
     ) {
         Text(
-            text = "Payment was successful. Thank you for your purchase",
+            text = stringResource(R.string.payment_success),
             modifier = Modifier.align(Alignment.TopCenter)
         )
         Icon(
@@ -47,7 +49,7 @@ fun PaymentSuccessfulView(
                 .padding(bottom = 16.dp)
         ) {
             Text(
-                text = "Go back"
+                text = stringResource(R.string.go_back)
             )
         }
     }

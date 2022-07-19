@@ -2,4 +2,6 @@
 <resources>
     <string name="make_payment_fail">Make payment fail</string>
     <string name="pay">Pay</string>
+    <string name="payment_success">Payment was successful. Thank you for your purchase</string>
+    <string name="go_back">Go back</string>
 </resources>
