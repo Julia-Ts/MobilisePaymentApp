@@ -20,7 +20,7 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun MobilisePaymentAppTheme(
+fun PaymentAppTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(

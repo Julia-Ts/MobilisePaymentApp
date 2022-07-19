@@ -4,60 +4,45 @@ import android.util.Log
 import com.mobilise.payment.data.model.TransactionData
 import com.mobilise.payment.util.StateData
 import kotlinx.coroutines.delay
-import kotlin.random.Random
 
 //TODO: implement storing and updating Transaction in db instead of a mock
 object TransactionRepository {
 
-    private lateinit var currentTransaction: TransactionData
+    private const val MOCK_TRANSACTION_MONEY_AMOUNT = 255.50F
 
     //Simulating retrieving transaction data
-    suspend fun getTransactionData(id: Long): StateData<TransactionData> {
+    suspend fun getCurrentTransactionData(): StateData<TransactionData> {
         delay(2000L)
+        val transaction: TransactionData
         try {
-            currentTransaction = TransactionData(
-                transactionId = 1L,
-                transactionTitle = listOf(
-                    "Item To Purchase",
-                    "Expensive Thing",
-                    "Necessary Stuff",
-                    "Desired Product"
-                ).random(),
-                moneyAmount = Random(5).nextDouble(9.99, 999.99).toFloat(),
+            transaction = TransactionData(
+                transactionTitle = "Item To Purchase",
+                moneyAmount = MOCK_TRANSACTION_MONEY_AMOUNT,
                 isSuccessful = false
             )
         } catch (e: Exception) {
-            return StateData.Error("Transaction $id is not found")
+            return StateData.Error("Transaction data is not found")
         }
-        return StateData.Success(currentTransaction)
+        return StateData.Success(transaction)
     }
 
-    suspend fun makePayment(transactionId: Long): StateData<TransactionData> {
+    suspend fun makePayment(): StateData<TransactionData> {
+        val transaction: StateData<TransactionData>
         try {
-            setTransactionSuccessful()
+            transaction = getCurrentTransactionData()
         } catch (e: Exception) {
             Log.e(this.javaClass.toString(), e.message ?: "Payment failed")
             return StateData.Error("Payment failed. Please, try again")
         }
-        return StateData.Success(currentTransaction)
+        if (transaction is StateData.Success) {
+            transaction.data?.isSuccessful = true
+        }
+        return transaction
     }
 
     //For demonstration purposes
-    suspend fun makePaymentReturnError(transactionId: Long): StateData<TransactionData> {
-        setTransactionFailed()
+    suspend fun makePaymentReturnError(): StateData<TransactionData> {
         return StateData.Error("Payment failed. Please, try again")
-    }
-
-    //Simulating successful payment process
-    private suspend fun setTransactionSuccessful() {
-        delay(2000L)
-        currentTransaction.isSuccessful = true
-    }
-
-    //Simulating failed payment process
-    private suspend fun setTransactionFailed() {
-        delay(2000L)
-        currentTransaction.isSuccessful = false
     }
 
 }

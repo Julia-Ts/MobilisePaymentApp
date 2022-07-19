@@ -1,8 +1,9 @@
 package com.mobilise.payment.data.model
 
+import java.io.Serializable
+
 class TransactionData(
-    val transactionId: Long,
     val transactionTitle: String,
     val moneyAmount: Float,
     var isSuccessful: Boolean
-)
+) : Serializable

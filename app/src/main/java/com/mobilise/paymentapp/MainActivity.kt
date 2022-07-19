@@ -6,42 +6,32 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import com.mobilise.payment.data.TransactionRepository
 import com.mobilise.payment.ui.CardPaymentScreen
-import com.mobilise.paymentapp.ui.theme.MobilisePaymentAppTheme
+import com.mobilise.payment.viewmodel.CardPaymentViewModel
+import com.mobilise.payment.viewmodel.ViewModelProviderFactory
+import com.mobilise.paymentapp.ui.theme.PaymentAppTheme
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MobilisePaymentAppTheme {
+            PaymentAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Content()
+                    //TODO: Use DI if App grows bigger
+                    val repo = TransactionRepository
+                    val vmfactory = ViewModelProviderFactory(repo)
+                    val vm =
+                        ViewModelProvider(this, vmfactory).get(CardPaymentViewModel::class.java)
+                    CardPaymentScreen(vm)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Content() {
-    //Mocked values:
-    val mockTransactionId = 1L
-    //TODO: Use DI if App grows bigger
-    //use factory to instantiate viewmodel
-    CardPaymentScreen(mockTransactionId)
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MobilisePaymentAppTheme {
-        Content()
     }
 }
